@@ -202,6 +202,14 @@ def main(size, npop, ngen, cxpb, mutpb, indpb, verbose, save_data, print_data, s
     stats = {item: numpy.zeros(ngen) for item in {"Avg", "Std", "Max", "Min"}}
     hit_stats = {"Avg": 0, "Std": 0, "Max": 0, "Min": 0}
 
+    size = 50
+    ngen = 500
+    npop = 100
+    cxpd = 0.5
+    mutpb = 0.5
+    indpb = 0.01
+
+
     max_iterations = 30
     all_gen = list()
 

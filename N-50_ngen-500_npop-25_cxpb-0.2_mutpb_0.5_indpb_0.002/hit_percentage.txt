@@ -1,0 +1,12 @@
+Hit Counts :
+\ tMin Hit Count : 5
+\ tAverage Hit Count : 1
+\ tStandard Dev Hit Count : 7
+\ tMax Hit Count : 1
+
+Hit Statistics :
+\ tMin Hits : 0.16666666666666666
+\ tAverage Hits : 0.03333333333333333
+\ tStandard Dev Hit Count : 0.23333333333333334
+\ tMax Hits : 0.03333333333333333
+
