@@ -43,71 +43,62 @@ class GA:
         return self.problem.set_nqueens(individual.solution)
 
     def selection(self, individuals, k, tournsize=2):
+        #
+        #  Exercice 2. a)
+        #
+        #  Return a list of selected candidates
+        #
+        #Select the best individuals among the population.
         chosen = []
-        # for _ in range(k):
-        #aspirants = random.sample(individuals, tournsize)
-        #chosen.append(max(aspirants, key=lambda x: x.fitness))
+
         for _ in range(k):
+            # Select candidates by tournament
             rest = random.sample(individuals, tournsize)
+            # Select the fittest candidate
             min_fitness = min([element.fitness for element in rest])
             selected_individuals = [
                 element for element in rest if element.fitness == min_fitness]
             selected = selected_individuals
             if len(selected_individuals) > 1:
                 selected = random.sample(selected_individuals, 1)
+            # Append the fittest candidate to the list of chosen individuals
             chosen.append(selected[0])
-        #
-        #  Exercice 2. a)
-        #
-        #  Return a list of selected candidates
-        #
+        # Return the list of tournament winners
         return chosen
 
     def crossover(self, ind1, ind2):
+        #  Exercice 2. b)
+        #
+        #  Define HERE the crossover operation
+        #
+        #
+        """
+        Perform a single point crossover on the input individuals.
+        The point of crossover is selected at random and the resulting
+        individuals are returned.
+        """
         index = len(ind1.solution) - 1
         for i in range(len(ind1.solution)):
+            # Create the offspring by combining the solutions of the parents
             if all(item not in ind2.solution[i:] for item in ind1.solution[:i + 1]):
                 index = i
         tmp = ind1.solution[index:].copy()
         ind1.solution[index:] = ind2.solution[index:]
         ind2.solution[index:] = tmp
         return Individual(solution=ind1.solution, fitness=ind1.fitness), Individual(solution=ind2.solution, fitness=ind2.fitness)
-
-        #size = len(ind1.solution)
-        #p1, p2 = random.sample(range(size), 2)
-        # if p1 > p2:
-        #p1, p2 = p2, p1
-        #ind1.solution[p1:p2+1], ind2.solution[p1:p2+1] = ind2.solution[p1:p2+1], ind1.solution[p1:p2+1]
-        #ind1.fitness = None
-        #ind2.fitness = None
-        # return ind1, ind2
-
-    #
-
-        #  Exercice 2. b)
-        #
-        #  Define HERE the crossover operation
-        #
-        #
+  
     def mutation(self, individual, indpb):
-        for i in range(len(individual.solution)):
-            r = random.random()
-            if r <= indpb:
-                individual.solution[i] = random.randint(
-                    0, self.problem.size - 1)
-
-        #size = len(individual.solution)
-        # for i in range(size):
-            # if random.random() < indpb:
-                #p1, p2 = random.sample(range(size), 2)
-                #individual.solution[p1], individual.solution[p2] = individual.solution[p2], individual.solution[p1]
-        #individual.fitness = None
-
         #
         #  Exercice 2. c)
         #
         #  Define HERE the mutation operation
         #
+        # Mutate an individual by randomly selecting two positions in the solution and swapping them.
+        for i in range(len(individual.solution)):
+            r = random.random()
+            if r <= indpb:
+                individual.solution[i] = random.randint(
+                    0, self.problem.size - 1)
         return individual
 
     def solve(self, npop, ngen, cxpb, mutpb, indpb, verbose=True):
@@ -119,7 +110,8 @@ class GA:
         stats.register("Max", numpy.max)
 
         header = ['gen', 'nevals'] + (stats.fields if stats else [])
-        all_gen = [header]# Generate initial population
+        all_gen = [header]  
+        # Generate initial population
         population = self.init_population(npop)
 
         # Evaluate the individuals with an invalid fitness
@@ -164,7 +156,7 @@ class GA:
                 ind for ind in next_population if not ind.fitness is not None]
             fitnesses = map(self.evaluate, invalid_ind)
             for ind, fit in zip(invalid_ind, fitnesses):
-                ind.fitness = fit 
+                ind.fitness = fit
                 # Replace the current population by the offspring
             population[:] = next_population
 
@@ -229,14 +221,6 @@ def main(size, npop, ngen, cxpb, mutpb, indpb, verbose, save_data, print_data, s
             hit_stats["Min"] += 1
 
         for j in range(1, len(all_gen)-1):
-            # if 0 <= j < len(all_gen):
-            # print(all_gen[j])
-            # else:
-            #print("Index out of bounds")
-            # t#try:
-            # print(all_gen[j])
-            # except IndexError:
-            #print("Index out of bounds")
             stats["Avg"][j - 1] += float(all_gen[j][2]) / max_iterations
             stats["Std"][j - 1] += float(all_gen[j][3]) / max_iterations
             stats["Min"][j - 1] += float(all_gen[j][4]) / max_iterations
