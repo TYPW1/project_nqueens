@@ -188,12 +188,12 @@ def check_path(ctx, param, value):
 
 
 @click.command()
-@click.option('--size', default=10, help='Size of the nqueens problem')
+@click.option('--size', default=50, help='Size of the nqueens problem')
 @click.option('--npop', default=100, help='Number of individual in the population')
-@click.option('--ngen', default=100, help='Number of generations')
+@click.option('--ngen', default=500, help='Number of generations')
 @click.option('--cxpb', default=0.5, help='Crossover probability', callback=validate_proba)
-@click.option('--mutpb', default=0.2,  help='Mutation probability', callback=validate_proba)
-@click.option('--indpb', default=0.2,  help='Allele mutation probability', callback=validate_proba)
+@click.option('--mutpb', default=0.5,  help='Mutation probability', callback=validate_proba)
+@click.option('--indpb', default=0.01,  help='Allele mutation probability', callback=validate_proba)
 @click.option('--verbose/--no-verbose')
 @click.option('--save', default=None,  help='Record population and generation in a non-existing directory', callback=check_path)
 @click.option('--save_data/--no-save_data', help='Save tables and plots')
